@@ -26,6 +26,7 @@ c = fft(b)
 print(c)
 
 # Inverse. Should come back with b
+print("\nInverse\n")
 c_inverse = ifft(c)
 print(c_inverse)
 
