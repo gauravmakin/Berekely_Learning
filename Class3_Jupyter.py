@@ -86,6 +86,13 @@ class Dog(Animal):
     def talk(self):
         return 'Woof Woof'
 
+animals = [Cat('Tiger'), Cat('Kitty'), Dog('Maxie')]
+
+def animal_sounds():
+    for animal in animals:
+        print(animal.name + ': ' + animal.talk())
+
+animal_sounds()
 
 # In[21]:
 
@@ -172,11 +179,11 @@ t_list = toc - tic
 
 print("numpy: %.3e sec" %(t_numpy))
 print("list: %.3e sec" %(t_list))
-print("diff: %.3e sec" %(t_numpy-t_list))
+print("diff: %.3e sec" %(t_list-t_numpy))
+print("Ratio: %.li times slower than numpy ndarray" %(t_list/t_numpy))
 
 
 # In[43]:
-
 
 import numpy
 c = numpy.arange(5, dtype=numpy.float16)
