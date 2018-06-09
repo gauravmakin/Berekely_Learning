@@ -1,6 +1,6 @@
 #from mpl_toolkits.mplot3d import Axes3D, get_test_data
 import matplotlib.pyplot as plt
-from numpy import Arange
+from numpy import arange
 
 ''' fig = plt.figure()
 ax = fig.add_subplot(111, projection='3D')
