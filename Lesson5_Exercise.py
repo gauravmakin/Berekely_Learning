@@ -33,9 +33,9 @@ from numpy import matrix, array, random, min, max
 import pylab as plb
 
 A = random.randint(1,10, 600)
-print(A)
+#print(A)
 B = random.randint(-3*plb.pi, 2*plb.pi, 500)
-print(B)
+#print(B)
 
 def my_overwrite(my_list):
     avg = (my_list.min() + my_list.max())/2
@@ -48,7 +48,7 @@ def my_overwrite(my_list):
     return my_list
 
 C = array(my_overwrite(A))
-print(C)
+#print(C)
 
 print("\n\n-------- D ----------\n\n")
 D = B + C[:500]
