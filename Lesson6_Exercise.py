@@ -38,7 +38,7 @@ def replace(my_dict, my_array):
     return my_dict
 
 
-my_array = plb.normal(loc=2, scale=3, size=2)
+my_array = plb.normal(loc=2, scale=3, size=256)
 
 C = replace(B, my_array)
 C['A'] = C.pop('E')
@@ -46,22 +46,22 @@ C['A'] = C.pop('E')
 #print(C)
 C['F'] = 1980
 del C['D']
-print(C)
+#print(C)
 
-if A.values() < B.values():
-    print("A is less than B")
-elif A.values() < C.values():
-    print("A is less than C")
-else:
-    print('A is the father')
+# if A.values() < B.values():
+#     print("A is less than B")
+# elif A.values() < C.values():
+#     print("A is less than C")
+# else:
+#     print('A is the father')
     
 
-#plb.figure(1)
+plb.figure(1)
 
-#plb.hist(my_array, normed=True, bins=24)
-#plb.title("Histogram")
+plb.hist(my_array, density=True, bins=24)
+plb.title("Histogram")
 
-#plb.xlabel("X-Axis")
-#plb.ylabel("Y-Axis")
-#plb.grid(True)
-
+plb.xlabel("X-Axis")
+plb.ylabel("Y-Axis")
+plb.grid(True)
+plb.pause(4)
