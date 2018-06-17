@@ -231,5 +231,7 @@ plb.show()
 
 import collections
 dict = {2:3, 1:89, 4:5, 3:0}
-ord = 
+ord = collections.OrderedDict(sorted(dict.items()))
+print(ord)
+
 

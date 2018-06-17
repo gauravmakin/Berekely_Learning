@@ -57,7 +57,6 @@ del C['D']
     
 
 plb.figure(1)
-<<<<<<< HEAD
 
 plb.hist(my_array, density=True, bins=24)
 plb.title("Histogram")
@@ -66,11 +65,9 @@ plb.xlabel("X-Axis")
 plb.ylabel("Y-Axis")
 plb.grid(True)
 plb.pause(4)
-=======
 
 plb.hist(my_array, density=True, bins=24)
 plb.title("Histogram")
->>>>>>> f261bbb916ab8ce246508f0d2b7e245ff1e83090
 
 plb.xlabel("X-Axis")
 plb.ylabel("Y-Axis")

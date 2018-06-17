@@ -52,5 +52,26 @@ C = array(my_overwrite(A))
 
 print("\n\n-------- D ----------\n\n")
 D = B + C[:500]
-print(D)
+#print(D)
 
+#fig = plb.figure()
+fig, axes = plb.subplots(nrows=2, ncols=1, figsize=(6,4), dpi=100)
+
+axes[0].plot(plb.sin(D), color='red', lw=3, ls='--', label='Sin of D')
+axes[0].plot(plb.cos(D), color='blue', lw=2, ls='-.', label='Cos of D')
+
+axes[0].grid()
+
+axes[0].set_ylabel('Y Axis')
+axes[0].set_xlabel('X Axis')
+axes[0].set_title('Signals')
+axes[0].legend(loc=0)
+
+axes[1].plot(plb.tan(D), label='Tan')
+axes[1].grid()
+axes[1].set_xlabel('X Axis')
+axes[1].set_ylabel('Y Axis')
+axes[1].legend(loc=0)
+
+print("Show me the Figure\n")
+plb.show()
