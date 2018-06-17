@@ -46,7 +46,7 @@ C['A'] = C.pop('E')
 #print(C)
 C['F'] = 1980
 del C['D']
-print(C)
+#print(C)
 
 # if A.values() < B.values():
 #     print("A is less than B")
@@ -57,6 +57,7 @@ print(C)
     
 
 plb.figure(1)
+<<<<<<< HEAD
 
 plb.hist(my_array, density=True, bins=24)
 plb.title("Histogram")
@@ -65,4 +66,13 @@ plb.xlabel("X-Axis")
 plb.ylabel("Y-Axis")
 plb.grid(True)
 plb.pause(4)
+=======
 
+plb.hist(my_array, density=True, bins=24)
+plb.title("Histogram")
+>>>>>>> f261bbb916ab8ce246508f0d2b7e245ff1e83090
+
+plb.xlabel("X-Axis")
+plb.ylabel("Y-Axis")
+plb.grid(True)
+plb.pause(4)
