@@ -1,9 +1,6 @@
 {
-<<<<<<< HEAD
-    "python.pythonPath": "/usr/local/bin/python3",
-=======
-    "python.pythonPath": "/usr/local/bin/python3.6",
->>>>>>> f261bbb916ab8ce246508f0d2b7e245ff1e83090
+    //"python.pythonPath": "/usr/local/bin/python3",
+    "python.pythonPath": "C:/Users/gmakin/AppData/Local/Programs/Python/Python36-32/python.exe",
     "python.linting.pylintEnabled": false,
     "python.linting.enabled": false
 }
