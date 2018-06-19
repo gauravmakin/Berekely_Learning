@@ -1,19 +1,19 @@
-"""
-1. Import pylab
-2. Create a dic4onary with 5 keys and empty values in A
-3. Using a func4on, assign random values to each key between [0:10], using a for loop
-and return the result in B
-4. Using a function, change the value of any member in B that is less than 5 with the
-result from (4.1) (consider using an if statement in a loop):
-    4.1 Using normal distribu4on with mean = 2 and std = 3 create an array of size 256 points
-    4.2 Using a histogram with 12 bins, plot the result from 4.1 with a pause of 1 sec. Use
-proper labeling (figure, 4tle, labels, legend, grid, etc.)
 
-5. Assign the result from 4. in C
-6. Update one of the keys in C with another using the pop feature
-7. Update another key in C manually (add the new one and delete the old one)
-8. Compare A, B and C using a short condi4onal expression
-"""
+# 1. Import pylab
+# 2. Create a dic4onary with 5 keys and empty values in A
+# 3. Using a func4on, assign random values to each key between [0:10], using a for loop
+# and return the result in B
+# 4. Using a function, change the value of any member in B that is less than 5 with the
+# result from (4.1) (consider using an if statement in a loop):
+#     4.1 Using normal distribu4on with mean = 2 and std = 3 create an array of size 256 points
+#     4.2 Using a histogram with 12 bins, plot the result from 4.1 with a pause of 1 sec. Use
+# proper labeling (figure, 4tle, labels, legend, grid, etc.)
+
+# 5. Assign the result from 4. in C
+# 6. Update one of the keys in C with another using the pop feature
+# 7. Update another key in C manually (add the new one and delete the old one)
+# 8. Compare A, B and C using a short condi4onal expression
+
 import pylab as plb
 #from numpy import random
 #import collections
@@ -23,7 +23,7 @@ print(A)
 
 def my_func(my_dict):
     for i, j in my_dict.items():
-        my_dict[i] = plb.randint(0,10)
+        my_dict[i] = plb.randint(0,11)
     return my_dict
 
 B = my_func(A)
@@ -57,7 +57,7 @@ del C['D']
 import collections
 collections.OrderedDict(sorted(A.items()))
 
-
+print('A, B and C are equal: ', A is B is C)
 
 plb.figure(1)
 
