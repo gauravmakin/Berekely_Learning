@@ -54,7 +54,10 @@ del C['D']
 #     print("A is less than C")
 # else:
 #     print('A is the father')
-    
+import collections
+collections.OrderedDict(sorted(A.items()))
+
+
 
 plb.figure(1)
 
