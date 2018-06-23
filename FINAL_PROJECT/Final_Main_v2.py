@@ -19,6 +19,8 @@ import time
 import warnings
 import sys
 
+#print(__doc__)
+
 global_temperature_country = pd.read_csv('/Users/gaurav/Documents/LEARNING/GitHub/Berekely_Learning/FINAL_PROJECT/GlobalLandTemperaturesByCountry.csv')
 
 countries = np.loadtxt('/Users/gaurav/Documents/LEARNING/GitHub/Berekely_Learning/FINAL_PROJECT/Countries.txt', dtype=(str), delimiter='|')
@@ -28,14 +30,21 @@ global_temperature_country_clear = global_temperature_country[np.isfinite(global
 
 # Delete all rows for countries that do not exist in the countries list
 global_temperature_country_clear['Exists'] = global_temperature_country_clear.Country.isin(countries).astype(int)
-global_temperature_country_clear = global_temperature_country_clear[global_temperature_country_clear.Exists != 0]
-#print(global_temperature_country_clear.head(50))
+#global_temperature_country_clear['Year'] = (global_temperature_country_clear.dt).year
 
-print(__doc__)
+print(global_temperature_country_clear.dtypes)
+#global_temperature_country_clear['Year'] = ""
+
+#for i in range(0,len(global_temperature_country_clear)):
+#    df.iloc(i).Year = pd.to_string(global_temperature_country_clear.iloc[i].dt[0:4])
+
+global_temperature_country_clear = global_temperature_country_clear[global_temperature_country_clear.Exists != 0]
+print(global_temperature_country_clear.head(5))
 
 # Find avg temperature for each month over the years
-for x, i in enumerate(global_temperature_country_clear, 0):
-    print('DataFrame formation per country per month avg, max, min')
+#for x, i in enumerate(global_temperature_country_clear, 0):
+#    print('DataFrame formation per country per month avg, max, min')
+
 # Find max and min for each month for a country and append to new dataframe object / country
 # Define function to convert celcius to farenheit
 # Iterate over each countries records to find deviation in max and min temperatures
