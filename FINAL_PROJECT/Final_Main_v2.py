@@ -20,6 +20,7 @@ import time
 import sys
 from pathlib import Path
 
+# Print docstring - Objective etc
 #print(__doc__)
 
 # Find current working directory
@@ -58,7 +59,7 @@ global_temperature_country_clear['Year'] = global_temperature_country_clear['dt'
 global_temperature_country_clear['Month'] = global_temperature_country_clear['dt'].str[5:7]
 
 # Print few lines fo the data frame for testing
-print(global_temperature_country_clear.head(5))
+#print(global_temperature_country_clear.head(5))
 
 # Find max, min temperature for each country and in which year did that occur
 countries = np.unique(global_temperature_country_clear['Country'])
