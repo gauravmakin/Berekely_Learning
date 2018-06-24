@@ -13,16 +13,37 @@ PROJECT OBJECTIVE:    Analyze weather/temperature data to determine rise in mean
 import numpy as np
 import scipy as sc
 import pylab as plb
+from os import path
 
 import pandas as pd
 import time
-import sys
+from sys import exit
+from pathlib import Path
 
 #print(__doc__)
 
-global_temperature_country = pd.read_csv('/Volumes/Gauravs_2nd/CODE/Berekely_Learning/FINAL_PROJECT/GlobalLandTemperaturesByCountry.csv')
+# Find current working directory
+my_path = path.dirname(path.abspath(__file__))
 
-countries = np.loadtxt('/Volumes/Gauravs_2nd/CODE/Berekely_Learning/FINAL_PROJECT/Countries.txt', dtype=(str), delimiter='|')
+temp_data_file = my_path + "\\" + "GlobalLandTemperaturesByCountry.csv"
+cntry_data_file = my_path + "\\" + "Countries.txt"
+
+def file_exists(fname):
+    file = Path(fname)
+    if file.is_file():
+        return True
+    else:
+        print("Data file " + fname + " not found")
+        print("Please check data file path and try again!!")
+        exit()
+        return False
+
+if file_exists(temp_data_file):
+    global_temperature_country = pd.read_csv(temp_data_file)
+
+if file_exists(cntry_data_file):
+    countries = np.loadtxt(cntry_data_file, dtype=(str), delimiter='|')
+
 countries = countries[:,1]
 
 global_temperature_country_clear = global_temperature_country[np.isfinite(global_temperature_country['AverageTemperature'])]
@@ -47,4 +68,4 @@ print(global_temperature_country_clear.head(5))
 # Iterate over each countries records to find deviation in max and min temperatures
 # Determine how to use scipy libraries
 # Plot data in graphs to show mean over the years, max/min changes over the years
-# See the global file to see if anything else can be done
+# See the global file to see if anything else can be done 
