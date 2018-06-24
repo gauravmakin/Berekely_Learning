@@ -11,12 +11,11 @@ PROJECT OBJECTIVE:    Analyze weather/temperature data to determine rise in mean
 '''
 
 import numpy as np
-#import scipy as sc
+import scipy as sc
 import pylab as plb
 
 import pandas as pd
 import time
-#import warnings
 import sys
 
 #print(__doc__)
@@ -40,9 +39,8 @@ global_temperature_country_clear['Month'] = global_temperature_country_clear['dt
 # Print few lines fo the data frame
 print(global_temperature_country_clear.head(5))
 
-# Find avg temperature for each month over the years
-#for x, i in enumerate(global_temperature_country_clear, 0):
-#    print('DataFrame formation per country per month avg, max, min')
+# Find avg, max, min temperature for each country each month over the years
+
 
 # Find max and min for each month for a country and append to new dataframe object / country
 # Define function to convert celcius to farenheit
