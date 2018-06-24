@@ -116,3 +116,8 @@ for year in years:
 print(type(mean_temp_world))
 
 
+fig = plb.figure()
+
+ax = fig.add_axes([0,0,1,1])
+ax.plot(years, mean_temp_world, color = 'red', lw=3, ls='-.', label = 'Mean Temperature')
+plb.show()
