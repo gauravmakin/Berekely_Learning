@@ -25,9 +25,10 @@ from pathlib import Path
 # Find current working directory
 my_path = path.dirname(path.abspath(__file__))
 
-temp_data_file = my_path + "\\" + "GlobalLandTemperaturesByCountry.csv"
-cntry_data_file = my_path + "\\" + "Countries.txt"
+temp_data_file = path.join(my_path , "GlobalLandTemperaturesByCountry.csv")
+cntry_data_file = path.join(my_path , "Countries.txt")
 
+# Function for handlng data files
 def file_exists(fname):
     file = Path(fname)
     if file.is_file():
