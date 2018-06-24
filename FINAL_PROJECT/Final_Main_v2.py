@@ -37,7 +37,6 @@ def file_exists(fname):
         print("Data file " + fname + " not found")
         print("Please check data file path and try again!!")
         exit()
-        return False
 
 if file_exists(temp_data_file):
     global_temperature_country = pd.read_csv(temp_data_file)
