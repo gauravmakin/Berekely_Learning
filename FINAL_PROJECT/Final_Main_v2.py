@@ -11,34 +11,33 @@ PROJECT OBJECTIVE:    Analyze weather/temperature data to determine rise in mean
 '''
 
 import numpy as np
-import scipy as sc
+#import scipy as sc
 import pylab as plb
 
 import pandas as pd
 import time
-import warnings
+#import warnings
 import sys
 
 #print(__doc__)
 
-global_temperature_country = pd.read_csv('/Users/gaurav/Documents/LEARNING/GitHub/Berekely_Learning/FINAL_PROJECT/GlobalLandTemperaturesByCountry.csv')
+global_temperature_country = pd.read_csv('/Volumes/Gauravs_2nd/CODE/Berekely_Learning/FINAL_PROJECT/GlobalLandTemperaturesByCountry.csv')
 
-countries = np.loadtxt('/Users/gaurav/Documents/LEARNING/GitHub/Berekely_Learning/FINAL_PROJECT/Countries.txt', dtype=(str), delimiter='|')
+countries = np.loadtxt('/Volumes/Gauravs_2nd/CODE/Berekely_Learning/FINAL_PROJECT/Countries.txt', dtype=(str), delimiter='|')
 countries = countries[:,1]
 
 global_temperature_country_clear = global_temperature_country[np.isfinite(global_temperature_country['AverageTemperature'])]
 
 # Delete all rows for countries that do not exist in the countries list
 global_temperature_country_clear['Exists'] = global_temperature_country_clear.Country.isin(countries).astype(int)
-#global_temperature_country_clear['Year'] = (global_temperature_country_clear.dt).year
-
-print(global_temperature_country_clear.dtypes)
-#global_temperature_country_clear['Year'] = ""
-
-#for i in range(0,len(global_temperature_country_clear)):
-#    df.iloc(i).Year = pd.to_string(global_temperature_country_clear.iloc[i].dt[0:4])
-
 global_temperature_country_clear = global_temperature_country_clear[global_temperature_country_clear.Exists != 0]
+global_temperature_country_clear.drop('Exists', axis = 1, inplace = True)
+
+# Get columns from month and year from the date column
+global_temperature_country_clear['Year'] = global_temperature_country_clear['dt'].str[0:4]
+global_temperature_country_clear['Month'] = global_temperature_country_clear['dt'].str[5:7]
+
+# Print few lines fo the data frame
 print(global_temperature_country_clear.head(5))
 
 # Find avg temperature for each month over the years
