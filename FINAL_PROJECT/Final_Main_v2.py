@@ -60,13 +60,13 @@ def Cel_Far(temperature):
     return float(far_temp)
 
 # Output
-def get_maxmin(YourCountry='USA'):
+def get_maxmin(YourCountry='United States'):
     print(YourCountry + ' :')
     print('\tMaximum temperature of %5.2f was in the year %i' % (mean_dict[YourCountry][1],  mean_dict[YourCountry][0]))
     print('\tMinimum temperature of %5.2f was in the year %i' % (mean_dict[YourCountry][3],  mean_dict[YourCountry][2]))
 
 
-get_maxmin('Afghanistan')    
+get_maxmin()    
     
 
 # Iterate over each countries records to find deviation in max and min temperatures
