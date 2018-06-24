@@ -13,7 +13,7 @@ PROJECT OBJECTIVE:    Analyze weather/temperature data to determine rise in mean
 import numpy as np
 import scipy as sc
 import pylab as plb
-
+import collections
 import pandas as pd
 import time
 import sys
@@ -36,24 +36,39 @@ global_temperature_country_clear.drop('Exists', axis = 1, inplace = True)
 global_temperature_country_clear['Year'] = global_temperature_country_clear['dt'].str[0:4]
 global_temperature_country_clear['Month'] = global_temperature_country_clear['dt'].str[5:7]
 
-# Print few lines fo the data frame
+# Print few lines fo the data frame for testing
 print(global_temperature_country_clear.head(5))
 
-# Find max, min temperature for each country over the years
+# Find max, min temperature for each country and in which year did that occur
 countries = np.unique(global_temperature_country_clear['Country'])
 
-mean_temp = {}
+mean_dict = {}
+
 for i in countries:
     key_name = str(i)
-    mean_temp[key_name] = [global_temperature_country_clear[global_temperature_country_clear['Country'] == i]['AverageTemperature'].max(),
-                            global_temperature_country_clear[global_temperature_country_clear['Country'] == i]['AverageTemperature'].min(),
-                            global_temperature_country_clear[global_temperature_country_clear['Country'] == i]['AverageTemperature'].mean()]
+    max_temp = global_temperature_country_clear[global_temperature_country_clear['Country'] == i]['AverageTemperature'].max()
+    min_temp = global_temperature_country_clear[global_temperature_country_clear['Country'] == i]['AverageTemperature'].min()
+    mean_temp = global_temperature_country_clear[global_temperature_country_clear['Country'] == i]['AverageTemperature'].mean()
+    max_year = int(global_temperature_country_clear[global_temperature_country_clear['AverageTemperature'] == max_temp]['Year'].max())
+    min_year = int(global_temperature_country_clear[global_temperature_country_clear['AverageTemperature'] == min_temp]['Year'].max())
 
-print(mean_temp['Afghanistan'])
+    mean_dict[key_name] = [max_year, max_temp, min_year, min_temp, mean_temp]
+
+# Function to convert celcius to Farenheit
+def Cel_Far(temperature):
+    far_temp = temperature * 9/5 + 32
+    return float(far_temp)
+
+# Output
+def get_maxmin(YourCountry='USA'):
+    print(YourCountry + ' :')
+    print('\tMaximum temperature of %5.2f was in the year %i' % (mean_dict[YourCountry][1],  mean_dict[YourCountry][0]))
+    print('\tMinimum temperature of %5.2f was in the year %i' % (mean_dict[YourCountry][3],  mean_dict[YourCountry][2]))
 
 
-# Find max and min for each month for a country and append to new dataframe object / country
-# Define function to convert celcius to farenheit
+get_maxmin('Afghanistan')    
+    
+
 # Iterate over each countries records to find deviation in max and min temperatures
 # Determine how to use scipy libraries
 # Plot data in graphs to show mean over the years, max/min changes over the years
