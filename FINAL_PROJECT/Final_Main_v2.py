@@ -28,6 +28,7 @@ my_path = path.dirname(path.abspath(__file__))
 
 temp_data_file = my_path + "//" + "GlobalLandTemperaturesByCountry.csv"
 cntry_data_file = my_path + "//" + "Countries.txt"
+temp_glb_file = my_path + "//" + "GlobalTemperatures.csv"
 
 def file_exists(fname):
     file = Path(fname)
@@ -58,9 +59,6 @@ global_temperature_country_clear.drop('Exists', axis = 1, inplace = True)
 global_temperature_country_clear['Year'] = global_temperature_country_clear['dt'].str[0:4]
 global_temperature_country_clear['Month'] = global_temperature_country_clear['dt'].str[5:7]
 
-# Print few lines fo the data frame for testing
-#print(global_temperature_country_clear.head(5))
-
 # Find max, min temperature for each country and in which year did that occur
 countries = np.unique(global_temperature_country_clear['Country'])
 
@@ -81,17 +79,38 @@ def Cel_Far(temperature):
     far_temp = temperature * 9/5 + 32
     return float(far_temp)
 
+
 # Output
 def get_maxmin(YourCountry='United States'):
     print(YourCountry + ' :')
     print('\tMaximum temperature of %5.2f was in the year %i' % (mean_dict[YourCountry][1],  mean_dict[YourCountry][0]))
     print('\tMinimum temperature of %5.2f was in the year %i' % (mean_dict[YourCountry][3],  mean_dict[YourCountry][2]))
 
+get_maxmin()
 
-get_maxmin()    
+
+# Print few lines fo the data frame for testing
+#print(global_temperature_country_clear.head(5))
     
-
 # Iterate over each countries records to find deviation in max and min temperatures
 # Determine how to use scipy libraries
 # Plot data in graphs to show mean over the years, max/min changes over the years
 # See the global file to see if anything else can be done 
+
+
+
+#global_temp = pd.read_csv('../GlobalTemperatures.csv')
+if file_exists(temp_glb_file):
+    glbl_tmp = pd.read_csv(temp_glb_file)
+
+years = np.unique(glbl_tmp['dt'].apply(lambda x: x[:4]))
+mean_temp_world = []
+mean_temp_world_uncertain = []
+
+for year in years:
+    mean_temp_world.append(glbl_tmp[glbl_tmp['dt'].apply(lambda x: x[:4]) == year]['LandAverageTemperature'].mean())
+
+
+print(type(mean_temp_world))
+
+
