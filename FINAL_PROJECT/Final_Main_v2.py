@@ -40,6 +40,14 @@ global_temperature_country_clear['Month'] = global_temperature_country_clear['dt
 print(global_temperature_country_clear.head(5))
 
 # Find avg, max, min temperature for each country each month over the years
+countries = np.unique(global_temperature_country_clear['Country'])
+mean_temp = []
+for i in countries:
+    mean_temp.append(global_temperature_country_clear[global_temperature_country_clear['Country'] == i]['AverageTemperature'].mean())
+
+#print(mean_temp)
+
+mean_temp_bar, countries_bar = (list(x) for x in zip(sorted(zip(mean_temp, countries))))
 
 
 # Find max and min for each month for a country and append to new dataframe object / country
