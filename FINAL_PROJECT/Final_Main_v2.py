@@ -17,7 +17,7 @@ from os import path
 import collections
 import pandas as pd
 import time
-from sys import exit
+import sys
 from pathlib import Path
 
 #print(__doc__)
@@ -25,8 +25,8 @@ from pathlib import Path
 # Find current working directory
 my_path = path.dirname(path.abspath(__file__))
 
-temp_data_file = my_path + "\\" + "GlobalLandTemperaturesByCountry.csv"
-cntry_data_file = my_path + "\\" + "Countries.txt"
+temp_data_file = my_path + "//" + "GlobalLandTemperaturesByCountry.csv"
+cntry_data_file = my_path + "//" + "Countries.txt"
 
 def file_exists(fname):
     file = Path(fname)
