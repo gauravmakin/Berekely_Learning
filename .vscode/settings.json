@@ -1,7 +1,13 @@
 {
-    //"python.pythonPath": "/usr/local/bin/python3",
-    "python.pythonPath": "/usr/local/bin/python3",
-    "python.pythonPath": "C:/Users/gmakin/AppData/Local/Programs/Python/Python36-32/python.exe",
-    "python.linting.pylintEnabled": false,
-    "python.linting.enabled": false
+    "python.unitTest.unittestArgs": [
+        "-v",
+        "-s",
+        ".",
+        "-p",
+        "test*.py"
+    ],
+    "python.unitTest.unittestEnabled": false,
+    "python.unitTest.promptToConfigure": false,
+    "python.unitTest.pyTestEnabled": false,
+    "python.unitTest.nosetestsEnabled": false
 }

@@ -26,10 +26,13 @@ from pathlib import Path
 # Find current working directory
 my_path = path.dirname(path.abspath(__file__))
 
-temp_data_file = my_path + "//" + "GlobalLandTemperaturesByCountry.csv"
-cntry_data_file = my_path + "//" + "Countries.txt"
+temp_data_file = path.join(my_path , "GlobalLandTemperaturesByCountry.csv")
+cntry_data_file = path.join(my_path , "Countries.txt")
+#temp_data_file = my_path + "//" + "GlobalLandTemperaturesByCountry.csv"
+#cntry_data_file = my_path + "//" + "Countries.txt"
 temp_glb_file = my_path + "//" + "GlobalTemperatures.csv"
 
+# Function for handlng data files
 def file_exists(fname):
     file = Path(fname)
     if file.is_file():
@@ -38,7 +41,6 @@ def file_exists(fname):
         print("Data file " + fname + " not found")
         print("Please check data file path and try again!!")
         exit()
-        return False
 
 if file_exists(temp_data_file):
     global_temperature_country = pd.read_csv(temp_data_file)
