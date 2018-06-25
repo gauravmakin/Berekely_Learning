@@ -28,9 +28,7 @@ my_path = path.dirname(path.abspath(__file__))
 
 temp_data_file = path.join(my_path , "GlobalLandTemperaturesByCountry.csv")
 cntry_data_file = path.join(my_path , "Countries.txt")
-#temp_data_file = my_path + "//" + "GlobalLandTemperaturesByCountry.csv"
-#cntry_data_file = my_path + "//" + "Countries.txt"
-temp_glb_file = my_path + "//" + "GlobalTemperatures.csv"
+temp_glb_file = path.join(my_path , "GlobalTemperatures.csv")
 
 # Function for handlng data files
 def file_exists(fname):
@@ -88,12 +86,34 @@ def get_maxmin(YourCountry='United States'):
     print('\tMaximum temperature of %5.2f was in the year %i' % (mean_dict[YourCountry][1],  mean_dict[YourCountry][0]))
     print('\tMinimum temperature of %5.2f was in the year %i' % (mean_dict[YourCountry][3],  mean_dict[YourCountry][2]))
 
-get_maxmin()
+#UserCountry = input("Enter Country Name (Default = United States) : ")
+UserCountry = 'India'
+get_maxmin(UserCountry)
 
+#Create Country specific data
+ctry_df = global_temperature_country_clear.loc[global_temperature_country_clear['Country'] == UserCountry]
 
-# Print few lines fo the data frame for testing
-#print(global_temperature_country_clear.head(5))
-    
+#Filter out data earlier than year 2000
+ctry_df = ctry_df.loc[ctry_df['dt'] >= '2000-01-01']
+
+#Append summary stats for each country to this data set
+ctry_df['max_year'] = pd.Series(mean_dict['India'][0], index=ctry_df.index)
+ctry_df['max_temp'] = pd.Series(mean_dict['India'][1], index=ctry_df.index)
+ctry_df['min_year'] = pd.Series(mean_dict['India'][2], index=ctry_df.index)
+ctry_df['min_temp'] = pd.Series(mean_dict['India'][3], index=ctry_df.index)
+ctry_df['mean_temp'] = pd.Series(mean_dict['India'][4], index=ctry_df.index)
+
+# Plot the data for a country
+plb.figure(1)
+plb.title("Temperature variance by years for %s" % UserCountry )
+
+#plb.subplot(2,1,1)
+plb.plot(ctry_df['dt'], ctry_df['AverageTemperature'],color='blue', linewidth = 1.5, linestyle = '-')
+plb.plot(ctry_df['dt'], ctry_df['max_temp'] ,color='red', linewidth = 1.2, linestyle = '-.')
+plb.plot(ctry_df['dt'], ctry_df['min_temp'] ,color='green', linewidth = 1.2, linestyle = '-.')
+plb.plot(ctry_df['dt'], ctry_df['mean_temp'] ,color='yellow', linewidth = 1.2, linestyle = '-.')
+
+plb.pause(2)
 # Iterate over each countries records to find deviation in max and min temperatures
 # Determine how to use scipy libraries
 # Plot data in graphs to show mean over the years, max/min changes over the years
