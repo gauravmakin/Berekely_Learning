@@ -79,7 +79,6 @@ def Cel_Far(temperature):
     far_temp = temperature * 9/5 + 32
     return float(far_temp)
 
-
 # Output
 def get_maxmin(YourCountry='United States'):
     print(YourCountry + ' :')
@@ -114,30 +113,24 @@ plb.plot(ctry_df['dt'], ctry_df['min_temp'] ,color='green', linewidth = 1.2, lin
 plb.plot(ctry_df['dt'], ctry_df['mean_temp'] ,color='yellow', linewidth = 1.2, linestyle = '-.')
 
 plb.pause(2)
-# Iterate over each countries records to find deviation in max and min temperatures
-# Determine how to use scipy libraries
-# Plot data in graphs to show mean over the years, max/min changes over the years
-# See the global file to see if anything else can be done 
 
-
-
-#global_temp = pd.read_csv('../GlobalTemperatures.csv')
+# Global Land Temperature Plot
 if file_exists(temp_glb_file):
     glbl_tmp = pd.read_csv(temp_glb_file)
 
 years = np.unique(glbl_tmp['dt'].apply(lambda x: x[:4]))
 mean_temp_world = []
-mean_temp_world_uncertain = []
+med_temp_world = []
 
 for year in years:
     mean_temp_world.append(glbl_tmp[glbl_tmp['dt'].apply(lambda x: x[:4]) == year]['LandAverageTemperature'].mean())
+    med_temp_world.append(glbl_tmp[glbl_tmp['dt'].apply(lambda x: x[:4]) == year]['LandAverageTemperature'].median())
 
-
-print(type(mean_temp_world))
-
-
+# Plotting the values
 fig = plb.figure()
 
 ax = fig.add_axes([0,0,1,1])
-ax.plot(years, mean_temp_world, color = 'red', lw=3, ls='-.', label = 'Mean Temperature')
-plb.show()
+ax.plot(years, mean_temp_world, color = 'red', lw=2, ls='-.', label = 'Mean Temperature')
+ax.plot(years, med_temp_world, color = 'blue', lw=1, ls='--', label = 'Median Temperature')
+ax.legend(loc=0)
+plb.pause(2)
