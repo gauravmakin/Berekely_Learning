@@ -54,6 +54,7 @@ global_temperature_country_clear = global_temperature_country[np.isfinite(global
 global_temperature_country_clear['Exists'] = global_temperature_country_clear.Country.isin(countries).astype(int)
 global_temperature_country_clear = global_temperature_country_clear[global_temperature_country_clear.Exists != 0]
 global_temperature_country_clear.drop('Exists', axis = 1, inplace = True)
+global_temperature_country.reset_index(inplace =True)
 
 # Get columns from month and year from the date column
 global_temperature_country_clear['Year'] = global_temperature_country_clear['dt'].str[0:4]
