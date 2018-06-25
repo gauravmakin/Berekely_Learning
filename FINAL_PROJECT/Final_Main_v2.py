@@ -54,6 +54,7 @@ global_temperature_country_clear = global_temperature_country[np.isfinite(global
 global_temperature_country_clear['Exists'] = global_temperature_country_clear.Country.isin(countries).astype(int)
 global_temperature_country_clear = global_temperature_country_clear[global_temperature_country_clear.Exists != 0]
 global_temperature_country_clear.drop('Exists', axis = 1, inplace = True)
+global_temperature_country.reset_index(inplace =True)
 
 # Get columns from month and year from the date column
 global_temperature_country_clear['Year'] = global_temperature_country_clear['dt'].str[0:4]
@@ -78,7 +79,6 @@ for i in countries:
 def Cel_Far(temperature):
     far_temp = temperature * 9/5 + 32
     return float(far_temp)
-
 
 # Output
 def get_maxmin(YourCountry='United States'):
@@ -147,20 +147,25 @@ plb.pause(5)
 # Plot data in graphs to show mean over the years, max/min changes over the years
 # See the global file to see if anything else can be done 
 
+plb.pause(2)
 
-
-#global_temp = pd.read_csv('../GlobalTemperatures.csv')
+# Global Land Temperature Plot
 if file_exists(temp_glb_file):
     glbl_tmp = pd.read_csv(temp_glb_file)
 
 years = np.unique(glbl_tmp['dt'].apply(lambda x: x[:4]))
 mean_temp_world = []
-mean_temp_world_uncertain = []
+med_temp_world = []
 
 for year in years:
     mean_temp_world.append(glbl_tmp[glbl_tmp['dt'].apply(lambda x: x[:4]) == year]['LandAverageTemperature'].mean())
+    med_temp_world.append(glbl_tmp[glbl_tmp['dt'].apply(lambda x: x[:4]) == year]['LandAverageTemperature'].median())
 
+# Plotting the values
+fig = plb.figure()
 
-print(type(mean_temp_world))
-
-
+ax = fig.add_axes([0,0,1,1])
+ax.plot(years, mean_temp_world, color = 'red', lw=2, ls='-.', label = 'Mean Temperature')
+ax.plot(years, med_temp_world, color = 'blue', lw=1, ls='--', label = 'Median Temperature')
+ax.legend(loc=0)
+plb.pause(2)
