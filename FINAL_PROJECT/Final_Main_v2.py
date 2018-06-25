@@ -94,7 +94,7 @@ get_maxmin(UserCountry)
 ctry_df = global_temperature_country_clear.loc[global_temperature_country_clear['Country'] == UserCountry]
 
 #Filter out data earlier than year 2000
-ctry_df = ctry_df.loc[ctry_df['dt'] >= '2000-01-01']
+#ctry_df = ctry_df.loc[ctry_df['dt'] >= '2000-01-01']
 
 #Append summary stats for each country to this data set
 ctry_df['max_year'] = pd.Series(mean_dict['India'][0], index=ctry_df.index)
@@ -103,15 +103,49 @@ ctry_df['min_year'] = pd.Series(mean_dict['India'][2], index=ctry_df.index)
 ctry_df['min_temp'] = pd.Series(mean_dict['India'][3], index=ctry_df.index)
 ctry_df['mean_temp'] = pd.Series(mean_dict['India'][4], index=ctry_df.index)
 
-# Plot the data for a country
-plb.figure(1)
+# Plot the data for a country  ** Commented out as this plot takes a long time.
+# plb.figure(1)
+# plb.title("Temperature variance by date for %s" % UserCountry )
+
+# #plb.subplot(2,1,1)
+# plb.plot(ctry_df['dt'], ctry_df['AverageTemperature'],color='blue', linewidth = 1.5, linestyle = '-')
+# plb.plot(ctry_df['dt'], ctry_df['max_temp'] ,color='red', linewidth = 1.2, linestyle = '-.')
+# plb.plot(ctry_df['dt'], ctry_df['min_temp'] ,color='green', linewidth = 1.2, linestyle = '-.')
+# plb.plot(ctry_df['dt'], ctry_df['mean_temp'] ,color='yellow', linewidth = 1.2, linestyle = '-.')
+
+# plb.pause(5)
+
+ctry_summ_df = ctry_df[['Year','Month','AverageTemperature']]
+ctry_summ_df['max_temp'] = ctry_df[['Year','AverageTemperature']].groupby(['Year']).max()
+ctry_summ_df['min_temp'] = ctry_df[['Year','AverageTemperature']].groupby(['Year']).min()
+ctry_summ_df['mean_temp'] = ctry_df[['Year','AverageTemperature']].groupby(['Year']).mean()
+ctry_summ_df.reset_index()
+
+plb.figure(2)
 plb.title("Temperature variance by years for %s" % UserCountry )
 
-#plb.subplot(2,1,1)
-plb.plot(ctry_df['dt'], ctry_df['AverageTemperature'],color='blue', linewidth = 1.5, linestyle = '-')
-plb.plot(ctry_df['dt'], ctry_df['max_temp'] ,color='red', linewidth = 1.2, linestyle = '-.')
-plb.plot(ctry_df['dt'], ctry_df['min_temp'] ,color='green', linewidth = 1.2, linestyle = '-.')
-plb.plot(ctry_df['dt'], ctry_df['mean_temp'] ,color='yellow', linewidth = 1.2, linestyle = '-.')
+plb.subplot(2,1,1)
+plb.plot(ctry_summ_df.reset_index()['Year'], ctry_summ_df['AverageTemperature'],color='blue', linewidth = 1.5, linestyle = '-')
+plb.plot(ctry_summ_df.reset_index()['Year'], ctry_summ_df['max_temp'] ,color='red', linewidth = 1.2, linestyle = '-.')
+plb.plot(ctry_summ_df.reset_index()['Year'], ctry_summ_df['mean_temp'] ,color='yellow', linewidth = 1.2, linestyle = '-.')
+plb.grid()
+plb.xticks(plb.linspace(1700,2100,50, endpoint=True))
+plb.yticks(plb.linspace(5,35,5, endpoint=True))
+
+plb.subplot(2,1,2)
+plb.plot(ctry_summ_df.reset_index()['Year'], ctry_summ_df['AverageTemperature'],color='blue', linewidth = 1.5, linestyle = '-')
+plb.plot(ctry_summ_df.reset_index()['Year'], ctry_summ_df['min_temp'] ,color='green', linewidth = 1.2, linestyle = '-.')
+plb.plot(ctry_summ_df.reset_index()['Year'], ctry_summ_df['mean_temp'] ,color='yellow', linewidth = 1.2, linestyle = '-.')
+plb.grid()
+plb.xticks(plb.linspace(1700,2100,50, endpoint=True))
+plb.yticks(plb.linspace(5,35,5, endpoint=True))
+
+plb.pause(5)
+
+# Iterate over each countries records to find deviation in max and min temperatures
+# Determine how to use scipy libraries
+# Plot data in graphs to show mean over the years, max/min changes over the years
+# See the global file to see if anything else can be done 
 
 plb.pause(2)
 
