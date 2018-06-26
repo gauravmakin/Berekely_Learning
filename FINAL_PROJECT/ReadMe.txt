@@ -16,6 +16,13 @@ LIBRARIES REQUIRED: From Pandas, require read_csv, Series
                     from warnings, require filterwarnings
                     import sys to print docstring
                     from scipy as sc
+                    
                     import collections
+
+INPUT FILES:        Global Monthly Temperatures per Country
+                    Global Monthly Land Temperatures
+                    Country list
+
+
 
   
