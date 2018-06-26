@@ -10,16 +10,19 @@ PROJECT OBJECTIVE:    Analyze weather/temperature data to determine rise in mean
                       Based on this numerical analysis we will try to extrapolate the temperature in a future period.
 '''
 
-import numpy as np
-import scipy as sc
-import pylab as plb
 from os import path
-import collections
-from pandas import read_csv, Series
-import time
-import sys
 from pathlib import Path
+import sys
 from warnings import filterwarnings
+from numpy import unique, loadtxt, isfinite
+import pylab as plb
+from pandas import read_csv, Series
+import scipy as sc
+
+import collections
+
+#import time
+
 
 filterwarnings("ignore")
 
@@ -46,13 +49,13 @@ def file_exists(fname):
 if file_exists(temp_data_file):
     global_temperature_country = read_csv(temp_data_file)
 if file_exists(cntry_data_file):
-    countries = np.loadtxt(cntry_data_file, dtype = (str), delimiter = '|')
+    countries = loadtxt(cntry_data_file, dtype = (str), delimiter = '|')
 
 # ------ DATA CLEANING -----
 # Get list of valid Countries
 countries = countries[:, 1]
 # Clean dataset to remove null entries
-global_temperature_country_clear = global_temperature_country[np.isfinite(global_temperature_country['AverageTemperature'])]
+global_temperature_country_clear = global_temperature_country[isfinite(global_temperature_country['AverageTemperature'])]
 
 # Delete all rows for countries that do not exist in the countries list
 global_temperature_country_clear['Exists'] = global_temperature_country_clear.Country.isin(countries).astype(int)
@@ -66,7 +69,7 @@ global_temperature_country_clear['Month'] = global_temperature_country_clear['dt
 
 # ----- DATA ANALYSIS -----
 # Find max, min temperature for each country and in which year did that occur
-countries = np.unique(global_temperature_country_clear['Country'])
+countries = unique(global_temperature_country_clear['Country'])
 mean_dict = {}
 
 
@@ -81,7 +84,7 @@ for i in countries:
     mean_dict[key_name] = [max_year, max_temp, min_year, min_temp, mean_temp]
 # __________________________________________________________
 
-years = np.unique(global_temperature_country_clear['Year'])
+years = unique(global_temperature_country_clear['Year'])
 year_list = years.tolist()
 
 def max_min_country(InputCountry = "India"):
@@ -106,12 +109,8 @@ def max_min_country(InputCountry = "India"):
     plb.grid(True)
     plb.pause(5)
 
-print('\n\n\n__________________________________________________________\n\n\n')
 max_min_country()
 
-print('\n\n\n__________________________________________________________\n\n\n')
-
-# __________________________________________________________
 # Function to convert celcius to Farenheit
 def cel_far(temperature):
     far_temp = temperature * 9/5 + 32
@@ -195,7 +194,7 @@ plb.pause(5)
 if file_exists(temp_glb_file):
     glbl_tmp = read_csv(temp_glb_file)
 
-years = np.unique(glbl_tmp['dt'].apply(lambda x: x[:4]))
+years = unique(glbl_tmp['dt'].apply(lambda x: x[:4]))
 mean_temp_world = []
 med_temp_world = []
 
@@ -208,6 +207,6 @@ fig = plb.figure()
 
 ax = fig.add_axes([0, 0, 1, 1])
 ax.plot(years, mean_temp_world, color = 'red', lw = 2, ls = '-.', label = 'Mean Temperature')
-ax.plot(years, med_temp_world, color = 'blue', lw = 1, ls = ' -- ', label = 'Median Temperature')
+ax.plot(years, med_temp_world, color = 'blue', lw = 1, ls = '--', label = 'Median Temperature')
 ax.legend(loc = 0)
 plb.pause(2)
