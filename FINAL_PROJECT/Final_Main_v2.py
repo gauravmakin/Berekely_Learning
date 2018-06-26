@@ -48,6 +48,7 @@ if file_exists(temp_data_file):
 if file_exists(cntry_data_file):
     countries = np.loadtxt(cntry_data_file, dtype = (str), delimiter = '|')
 
+# ------ DATA CLEANING -----
 # Get list of valid Countries
 countries = countries[:, 1]
 # Clean dataset to remove null entries
@@ -63,10 +64,11 @@ global_temperature_country.reset_index(inplace = True)
 global_temperature_country_clear['Year'] = global_temperature_country_clear['dt'].str[0:4]
 global_temperature_country_clear['Month'] = global_temperature_country_clear['dt'].str[5:7]
 
+# ----- DATA ANALYSIS -----
 # Find max, min temperature for each country and in which year did that occur
 countries = np.unique(global_temperature_country_clear['Country'])
-
 mean_dict = {}
+
 
 for i in countries:
     key_name = str(i)
