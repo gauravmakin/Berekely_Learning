@@ -10,21 +10,21 @@ PROJECT OBJECTIVE:    Analyze weather/temperature data to determine rise in mean
                       Based on this numerical analysis we will try to extrapolate the temperature in a future period.
 '''
 
+
+import sys
 from os import path
 from pathlib import Path
-import sys
 from warnings import filterwarnings
 from numpy import unique, loadtxt, isfinite
-import pylab as plb
 from pandas import read_csv, Series
+import pylab as plb
 from collections import OrderedDict
 import scipy as sc
-#import time
 
 filterwarnings("ignore")
 
 # Print docstring - Objective etc
-# print(__doc__)
+print(__doc__)
 
 # ----- FILE HANDLING -----
 # Find current working directory
@@ -44,104 +44,89 @@ def file_exists(fname):
         exit()
 
 if file_exists(temp_data_file):
-    global_temperature_country = read_csv(temp_data_file)
+    glbl_temp_cntry = read_csv(temp_data_file)
 if file_exists(cntry_data_file):
     countries = loadtxt(cntry_data_file, dtype = (str), delimiter = '|')
 
 
 # ------ DATA CLEANING -----
-# Get list of valid Countries
+    # Get list of valid Countries
 countries = countries[:, 1]
-# Clean dataset to remove null entries
-global_temperature_country_clear = global_temperature_country[isfinite(global_temperature_country['AverageTemperature'])]
+    # Clean dataset to remove null entries
+glbl_temp_cleaned = glbl_temp_cntry[isfinite(glbl_temp_cntry['AverageTemperature'])]
 
     # Delete all rows for countries that do not exist in the countries list
-global_temperature_country_clear['Exists'] = global_temperature_country_clear.Country.isin(countries).astype(int)
-global_temperature_country_clear = global_temperature_country_clear[global_temperature_country_clear.Exists != 0]
-global_temperature_country_clear.drop('Exists', axis = 1, inplace = True)
-global_temperature_country.reset_index(inplace = True)
+glbl_temp_cleaned['Exists'] = glbl_temp_cleaned.Country.isin(countries).astype(int)
+glbl_temp_cleaned = glbl_temp_cleaned[glbl_temp_cleaned.Exists != 0]
+glbl_temp_cleaned.drop('Exists', axis = 1, inplace = True)
+glbl_temp_cntry.reset_index(inplace = True)
 
     # Get columns from month and year from the date column
-global_temperature_country_clear['Year'] = global_temperature_country_clear['dt'].str[0:4]
-global_temperature_country_clear['Month'] = global_temperature_country_clear['dt'].str[5:7]
+glbl_temp_cleaned['Year'] = glbl_temp_cleaned['dt'].str[0:4]
+glbl_temp_cleaned['Month'] = glbl_temp_cleaned['dt'].str[5:7]
 
 
 # ----- DATA ANALYSIS -----
     # Find max, min temperature for each country and in which year did that occur
-countries = unique(global_temperature_country_clear['Country'])
+countries = unique(glbl_temp_cleaned['Country'])
 mean_dict = {}
-plot_dict = {}
 
+    # Get max, min, years for each country
 for i in countries:
     key_name = str(i)
-    plot_key = str(i)
-    max_temp = global_temperature_country_clear[global_temperature_country_clear['Country'] == i]['AverageTemperature'].max()
-    min_temp = global_temperature_country_clear[global_temperature_country_clear['Country'] == i]['AverageTemperature'].min()
-    mean_temp = global_temperature_country_clear[global_temperature_country_clear['Country'] == i]['AverageTemperature'].mean()
-    max_year = int(global_temperature_country_clear[global_temperature_country_clear['AverageTemperature'] == max_temp]['Year'].max())
-    min_year = int(global_temperature_country_clear[global_temperature_country_clear['AverageTemperature'] == min_temp]['Year'].max())
+    max_temp = glbl_temp_cleaned[glbl_temp_cleaned['Country'] == i]['AverageTemperature'].max()
+    min_temp = glbl_temp_cleaned[glbl_temp_cleaned['Country'] == i]['AverageTemperature'].min()
+    mean_temp = glbl_temp_cleaned[glbl_temp_cleaned['Country'] == i]['AverageTemperature'].mean()
+    max_year = int(glbl_temp_cleaned[glbl_temp_cleaned['AverageTemperature'] == max_temp]['Year'].max())
+    min_year = int(glbl_temp_cleaned[glbl_temp_cleaned['AverageTemperature'] == min_temp]['Year'].max())
 
     mean_dict[key_name] = [max_year, max_temp, min_year, min_temp, mean_temp]
-    plot_dict[plot_key] = max_temp
-
-    # Plotting bar chart of country average temperatures
-desc_mean_dict = OrderedDict(sorted(plot_dict.items()), reverse = True)
-#desc_mean_dict = sorted(mean_dict.items())
-fig = plb.figure()
-ax = fig.add_axes([0, 0, 1, 1])
-
-plb.bar(range(len(plot_dict)), plot_dict.values(), align = 'center')
-plb.xticks(range(len(plot_dict)), list(plot_dict.keys()))
-
-plb.show()
 
 # Plotting based on user input country
-years = unique(global_temperature_country_clear['Year'])
+years = unique(glbl_temp_cleaned['Year'])
 year_list = years.tolist()
 
-def max_min_country(InputCountry = "India"):
-    year_dict = []
+def max_min_country(InputCountry):
+    max_dict = []
+    min_dict = []
+    
+    print ("Maximum Temperature of: ", float(mean_dict[InputCountry][1]), ' degree celcius Or ', cel_far(float(mean_dict[InputCountry][1])), 'Farenheit')
+    print ('Minimum Temperature of: ', float(mean_dict[InputCountry][3]), ' degree celcius Or ', cel_far(float(mean_dict[InputCountry][3])), 'Farenheit')
+    print ('Average Temperature of: ', float(mean_dict[InputCountry][4]), ' degree celcius Or ', cel_far(float(mean_dict[InputCountry][4])), 'Farenheit')
+    
     for x in years:
-        #year_name = str(x)
-        #max_temp = global_temperature_country_clear[(global_temperature_country_clear['Country'] == InputCountry) & (global_temperature_country_clear['Year'] == x)]['AverageTemperature'].max()
-        #mean_temp_world.append(glbl_tmp[glbl_tmp['dt'].apply(lambda x: x[:4]) == year]['LandAverageTemperature'].mean())
-        max_temp = global_temperature_country_clear[(global_temperature_country_clear['Country'] == InputCountry) & (global_temperature_country_clear['Year'] == x)]['AverageTemperature'].max()
+        max_temp = glbl_temp_cleaned[(glbl_temp_cleaned['Country'] == InputCountry) & (glbl_temp_cleaned['Year'] == x)]['AverageTemperature'].max()
+        min_temp = glbl_temp_cleaned[(glbl_temp_cleaned['Country'] == InputCountry) & (glbl_temp_cleaned['Year'] == x)]['AverageTemperature'].min()
         if max_temp > 0 or max_temp < 0:
-            year_dict.append(max_temp)
+            max_dict.append(max_temp)
+            min_dict.append(min_temp)
         else:
             year_list.remove(x)
             continue
+
     # Plotting the graph for maximum and average temperatures
     fig2 = plb.figure()
     ax2 = fig2.add_axes([0, 0, 1, 1])
-    ax2.plot(year_list, year_dict, color = 'red', lw = 2, ls = '-.', label = 'Indias Max Temperature')
-    ax2.legend(loc = 0)
+    ax2.plot(year_list, max_dict, color = 'red', lw = 1, ls = '-', label = ('Maximum temperatures of ' + str(InputCountry)))
+    ax2.plot(year_list, min_dict, color = 'blue', lw = 1, ls = '-', label = ('Minimum temperatures of ' + str(InputCountry)))
+    ax2.legend(loc = 0, frameon = False)
+    fig2.canvas.set_window_title("Rise in temperatures for %s" % InputCountry)
+    plb.xlabel('Years', fontsize = 12, position = (0.005, 0), color = 'black')
+    plb.ylabel('Temperature')
     plb.xlim(min(year_list), max(year_list))
-    #plb.grid(True)
-    plb.pause(5)
-
-# Calling function to plot for default value
-max_min_country()
+    plb.pause(2)
 
 # Function to convert celcius to Farenheit
 def cel_far(temperature):
     far_temp = temperature * 9/5 + 32
     return float(far_temp)
 
-# Output
-def get_maxmin(YourCountry = 'United States'):
-    print(YourCountry + ' :')
-    print('\tMaximum temperature of %5.2f was in the year %i' % (mean_dict[YourCountry][1],  mean_dict[YourCountry][0]))
-    print('\tMinimum temperature of %5.2f was in the year %i' % (mean_dict[YourCountry][3],  mean_dict[YourCountry][2]))
-
-# UserCountry = input("Enter Country Name (Default = United States) : ")
-UserCountry = 'India'
-get_maxmin(UserCountry)
-
+UserCountry = input("Enter Country Name:\t")
+max_min_country(UserCountry)
 
 #_____________________________________-
 # # Create Country specific data
-# ctry_df = global_temperature_country_clear.loc[global_temperature_country_clear['Country'] == UserCountry]
+# ctry_df = glbl_temp_cleaned.loc[glbl_temp_cleaned['Country'] == UserCountry]
 
 # # Filter out data earlier than year 2000
 # # ctry_df = ctry_df.loc[ctry_df['dt'] >= '2000-01-01']
@@ -204,32 +189,26 @@ get_maxmin(UserCountry)
 # ______________________________________________
 # plb.pause(2)
 
-# Global Land Temperature Plot
+# # Global Land Temperature Plot
 if file_exists(temp_glb_file):
     glbl_tmp = read_csv(temp_glb_file)
 
 years = unique(glbl_tmp['dt'].apply(lambda x: x[:4]))
-mean_temp_world = []
-med_temp_world = []
+mean_world = []
+med_world = []
 
 for year in years:
-    mean_temp_world.append(glbl_tmp[glbl_tmp['dt'].apply(lambda x: x[:4]) == year]['LandAverageTemperature'].mean())
-    med_temp_world.append(glbl_tmp[glbl_tmp['dt'].apply(lambda x: x[:4]) == year]['LandAverageTemperature'].median())
+    mean_world.append(glbl_tmp[glbl_tmp['dt'].apply(lambda x: x[:4]) == year]['LandAverageTemperature'].mean())
+    med_world.append(glbl_tmp[glbl_tmp['dt'].apply(lambda x: x[:4]) == year]['LandAverageTemperature'].median())
 
 # Plotting the values
 fig = plb.figure()
-
 ax = fig.add_axes([0, 0, 1, 1])
-ax.plot(years, mean_temp_world, color = 'red', lw = 2, ls = '-', label = 'Mean Temperature')
-ax.plot(years, med_temp_world, color = 'blue', lw = 1, ls = '-.', label = 'Median Temperature')
-
-
-plb.xlim(min(years), max(years))
-plb.xticks(min(years), max(years))
+ax.plot(years, mean_world, color = 'red', lw = 2, ls = '-', label = 'Global Mean Temperatures')
+ax.plot(years, med_world, color = 'blue', lw = 1, ls = '-.', label = 'Global Median Temperatures')
+ax.legend(loc = 0, frameon = False)
 
 plb.xlabel('Years')
 plb.ylabel('Temperature')
-
-#plb.tight_layout()
-ax.legend(loc = 0)
-plb.show()
+fig.canvas.set_window_title('Global Temperature Rise Year Over Year')
+plb.pause(3)
