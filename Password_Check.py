@@ -13,10 +13,7 @@ a = ['a', 'b', 'c']
 b = [1, 2, 3]
 
 for i, j in zip(a,b):
-<<<<<<< HEAD
     print("%s is %s" % (i, j))
-=======
     print("%s is %s" %(i,j))
-
+    
 print("hello")
->>>>>>> dfe18b5ea97cc9371aa8be415184b92c40123f2c
