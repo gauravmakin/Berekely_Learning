@@ -85,8 +85,8 @@ for i in countries:
     plot_dict[plot_key] = max_temp
 
     # Plotting bar chart of country average temperatures
-desc_mean_dict = OrderedDict(sorted(plot_dict.items()), reverse = True)
-#desc_mean_dict = sorted(mean_dict.items())
+#desc_mean_dict = OrderedDict(sorted(plot_dict.items()), reverse = True)
+desc_mean_dict = sorted(plot_dict.items())
 fig = plb.figure()
 ax = fig.add_axes([0, 0, 1, 1])
 
