@@ -35,5 +35,7 @@ PROGRAM FLOW:       Code first reads the file with monthly data for all countrie
 
                     Global monthly file is then read and plotted in the same manner as above to show that over time the average land temperature has increased and is on the upward trend
 
+EXAMPLE COUNTRY NAMES:  Afghanistan, Albania, Algeria, Argentina, Australia, Austria, Bulgaria, India, United States etc.
+
 
   

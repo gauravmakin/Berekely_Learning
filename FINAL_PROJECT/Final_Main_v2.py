@@ -113,6 +113,8 @@ def max_min_country(InputCountry):
     plb.xlabel('Years', fontsize = 12, position = (0.005, 0), color = 'black')
     plb.ylabel('Temperature')
     plb.xlim(min(year_list), max(year_list))
+    plb.yticks(plb.linspace(0, 50, 10))
+    plb.axis('auto')
     plb.pause(2)
 
 # Function to convert celcius to Farenheit
@@ -121,7 +123,16 @@ def cel_far(temperature):
     return float(far_temp)
 
 UserCountry = input("Enter Country Name:\t")
-max_min_country(UserCountry)
+
+if UserCountry.title() in mean_dict.keys():
+    max_min_country(UserCountry.title())
+else:
+    again = input("Country not found in the dataset. Do you wish to try again? y/n ")
+    if again.lower() == 'y':
+        UserCountry = input("Enter Country Name:\t")
+        max_min_country(UserCountry.title())
+    else:
+        print('Sorry option not recognized. \nPlotting Yearly Global Temperatures')
 
 #_____________________________________-
 # # Create Country specific data
@@ -209,5 +220,6 @@ ax.legend(loc = 0, frameon = False)
 
 plb.xlabel('Years')
 plb.ylabel('Temperature')
+plb.axis('auto')
 fig.canvas.set_window_title('Global Temperature Rise Year Over Year')
 plb.pause(3)
