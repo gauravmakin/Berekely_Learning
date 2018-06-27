@@ -122,13 +122,9 @@ def max_min_country(InputCountry):
     plb.xlabel('Years', fontsize = 12, position = (0.005, 0), color = 'black')
     plb.ylabel('Temperature')
     plb.xlim(min(year_list), max(year_list))
-<<<<<<< HEAD
-    #plb.pause(10)
-=======
     plb.yticks(plb.linspace(0, 50, 10))
     plb.axis('auto')
-    plb.pause(2)
->>>>>>> 97405c13f65ad7ee1392789d9f91810141185a22
+#    plb.pause(2)
 
 # Function to convert celcius to Farenheit
 def cel_far(temperature):
