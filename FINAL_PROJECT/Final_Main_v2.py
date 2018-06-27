@@ -7,7 +7,6 @@ PROJECT OBJECTIVE:    Analyze weather/temperature data to determine rise in mean
                       countries and major cities, tracking how average temperature has changed over the years.
                       To provide a numerical and graphical analysis on global warming (extreme temperatures i.e. hot
                       and cold). 
-                      Based on this numerical analysis we will try to extrapolate the temperature in a future period.
 '''
 
 
