@@ -14,7 +14,7 @@ import sys
 from os import path
 from pathlib import Path
 from warnings import filterwarnings
-from numpy import unique, loadtxt, isfinite
+from numpy import unique, loadtxt, isfinite, asarray, polyfit, polyval
 from pandas import read_csv, Series
 import pylab as plb
 from collections import OrderedDict
@@ -85,6 +85,13 @@ for i in countries:
 years = unique(glbl_temp_cleaned['Year'])
 year_list = years.tolist()
 
+# Function to generate a curve fit array based on 5th degree polynomial 
+def plot_fit_curve(xlist,ylist):
+    xarr = asarray(xlist).astype(int)
+    yarr = asarray(ylist)
+    fit = polyfit(xarr, yarr, 5)
+    return polyval(fit, xarr)
+
 def max_min_country(InputCountry):
     max_dict = []
     min_dict = []
@@ -107,7 +114,9 @@ def max_min_country(InputCountry):
     fig2 = plb.figure()
     ax2 = fig2.add_axes([0, 0, 1, 1])
     ax2.plot(year_list, max_dict, color = 'red', lw = 1, ls = '-', label = ('Maximum temperatures of ' + str(InputCountry)))
+    ax2.plot(year_list, plot_fit_curve(year_list, max_dict), color = 'g', lw = 1, ls = '-.', label = ('Curve of Maximum temperatures of ' + str(InputCountry)))
     ax2.plot(year_list, min_dict, color = 'blue', lw = 1, ls = '-', label = ('Minimum temperatures of ' + str(InputCountry)))
+    ax2.plot(year_list, plot_fit_curve(year_list, min_dict), color = 'k', lw = 1, ls = '-.', label = ('Curve of Minimum temperatures of ' + str(InputCountry)))
     ax2.legend(loc = 0, frameon = False)
     fig2.canvas.set_window_title("Rise in temperatures for %s" % InputCountry)
     plb.xlabel('Years', fontsize = 12, position = (0.005, 0), color = 'black')
@@ -115,7 +124,7 @@ def max_min_country(InputCountry):
     plb.xlim(min(year_list), max(year_list))
     plb.yticks(plb.linspace(0, 50, 10))
     plb.axis('auto')
-    plb.pause(2)
+#    plb.pause(2)
 
 # Function to convert celcius to Farenheit
 def cel_far(temperature):
@@ -134,72 +143,7 @@ else:
     else:
         print('Sorry option not recognized. \nPlotting Yearly Global Temperatures')
 
-#_____________________________________-
-# # Create Country specific data
-# ctry_df = glbl_temp_cleaned.loc[glbl_temp_cleaned['Country'] == UserCountry]
-
-# # Filter out data earlier than year 2000
-# # ctry_df = ctry_df.loc[ctry_df['dt'] >= '2000-01-01']
-
-# # Append summary stats for each country to this data set
-# ctry_df['max_year'] = Series(mean_dict['India'][0], index = ctry_df.index)
-# ctry_df['max_temp'] = Series(mean_dict['India'][1], index = ctry_df.index)
-# ctry_df['min_year'] = Series(mean_dict['India'][2], index = ctry_df.index)
-# ctry_df['min_temp'] = Series(mean_dict['India'][3], index = ctry_df.index)
-# ctry_df['mean_temp'] = Series(mean_dict['India'][4], index = ctry_df.index)
-
-# # Plot the data for a country  ** Commented out as this plot takes a long time.
-# # plb.figure(1)
-# # plb.title("Temperature variance by date for %s" % UserCountry )
-
-# # #plb.subplot(2,1,1)
-# # plb.plot(ctry_df['dt'], ctry_df['AverageTemperature'],color='blue', linewidth = 1.5, linestyle = '-')
-# # plb.plot(ctry_df['dt'], ctry_df['max_temp'] ,color='red', linewidth = 1.2, linestyle = '-.')
-# # plb.plot(ctry_df['dt'], ctry_df['min_temp'] ,color='green', linewidth = 1.2, linestyle = '-.')
-# # plb.plot(ctry_df['dt'], ctry_df['mean_temp'] ,color='yellow', linewidth = 1.2, linestyle = '-.')
-
-# # plb.pause(5)
-
-# ctry_summ_df = ctry_df[['Year', 'Month', 'AverageTemperature']]
-# ctry_summ_df['max_temp'] = ctry_df[['Year', 'AverageTemperature']].groupby(['Year']).max()
-# ctry_summ_df['min_temp'] = ctry_df[['Year', 'AverageTemperature']].groupby(['Year']).min()
-# ctry_summ_df['mean_temp'] = ctry_df[['Year', 'AverageTemperature']].groupby(['Year']).mean()
-# ctry_summ_df.reset_index()
-
-# plb.figure(2)
-# plb.title("Temperature variance by years for %s" % UserCountry )
-
-# plb.subplot(2, 1, 1)
-# # plb.plot(ctry_summ_df.reset_index()['Year'], ctry_summ_df['AverageTemperature'],color='blue', linewidth = 1.5, linestyle = '-')
-# # plb.plot(ctry_summ_df.reset_index()['Year'], ctry_summ_df['max_temp'] ,color='red', linewidth = 1.2, linestyle = '-.')
-# # plb.plot(ctry_summ_df.reset_index()['Year'], ctry_summ_df['mean_temp'] ,color='yellow', linewidth = 1.2, linestyle = '-.')
-
-# plb.plot(ctry_summ_df['Year'], ctry_summ_df['AverageTemperature'], color = 'blue', linewidth = 1.5, linestyle = '-')
-# plb.plot(ctry_summ_df['Year'], ctry_summ_df['max_temp'] , color = 'red', linewidth = 1.2, linestyle = '-.')
-# plb.plot(ctry_summ_df['Year'], ctry_summ_df['mean_temp'] , color = 'yellow', linewidth = 1.2, linestyle = '-.')
-
-# plb.grid()
-# # plb.xticks(plb.linspace(1700,2100,50, endpoint=True))
-# # plb.yticks(plb.linspace(5,35,5, endpoint=True))
-
-# plb.subplot(2, 1, 2)
-# plb.plot(ctry_summ_df.reset_index()['Year'], ctry_summ_df['AverageTemperature'], color = 'blue', linewidth = 1.5, linestyle = '-')
-# plb.plot(ctry_summ_df.reset_index()['Year'], ctry_summ_df['min_temp'] , color = 'green', linewidth = 1.2, linestyle = '-.')
-# plb.plot(ctry_summ_df.reset_index()['Year'], ctry_summ_df['mean_temp'] , color = 'yellow', linewidth = 1.2, linestyle = '-.')
-# plb.grid()
-# # plb.xticks(plb.linspace(1700,2100,50, endpoint=True))
-# # plb.yticks(plb.linspace(5,35,5, endpoint=True))
-
-# plb.pause(5)
-
-# # Iterate over each countries records to find deviation in max and min temperatures
-# # Determine how to use scipy libraries
-# # Plot data in graphs to show mean over the years, max/min changes over the years
-# # See the global file to see if anything else can be done 
-# ______________________________________________
-# plb.pause(2)
-
-# # Global Land Temperature Plot
+# Global Land Temperature Plot
 if file_exists(temp_glb_file):
     glbl_tmp = read_csv(temp_glb_file)
 
@@ -215,6 +159,7 @@ for year in years:
 fig = plb.figure()
 ax = fig.add_axes([0, 0, 1, 1])
 ax.plot(years, mean_world, color = 'red', lw = 2, ls = '-', label = 'Global Mean Temperatures')
+ax.plot(years, plot_fit_curve(years, mean_world), color = 'g', lw = 1, ls = '-', label = 'Curve of Global Mean temperatures')
 ax.plot(years, med_world, color = 'blue', lw = 1, ls = '-.', label = 'Global Median Temperatures')
 ax.legend(loc = 0, frameon = False)
 
@@ -222,4 +167,4 @@ plb.xlabel('Years')
 plb.ylabel('Temperature')
 plb.axis('auto')
 fig.canvas.set_window_title('Global Temperature Rise Year Over Year')
-plb.pause(3)
+plb.show()
