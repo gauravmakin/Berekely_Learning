@@ -155,7 +155,7 @@ else:
 if file_exists(temp_glb_file):
     glbl_tmp = read_csv(temp_glb_file)
 
-years = (unique(glbl_tmp['dt'].apply(lambda x: x[:4]))).astype(int)
+years = (unique(glbl_tmp['dt'].apply(lambda x: x[:4])))
 mean_world = []
 med_world = []
 
@@ -164,18 +164,32 @@ for year in years:
     med_world.append(glbl_tmp[glbl_tmp['dt'].apply(lambda x: x[:4]) == year]['LandAverageTemperature'].median())
 
 # Plotting the values
+#fig = plb.figure()
+#ax = fig.add_axes([0,0,1,1])
+#ax.plot(years, mean_world, color = 'red', lw = 2, ls = '-', label = 'Mean')
+#ax.plot(years, plot_fit_curve_np(years, mean_world), color='g', lw=1, ls='-', label='Curvefit for Mean using Polyfit')
+#ax.plot(years, plot_fit_curve_sc(years, mean_world), color='k', lw=1, ls='-.', label='Curvefit for Mean using Interpolate')
+#ax.plot(years, med_world, color = 'blue', lw = 1, ls = '-.', label = 'Median')
+#ax.legend(loc = 0, frameon = False, fontsize = 'xx-small')
+#ax.title("Global temperature fluctuation by year")
+# plb.xlim(min(years), max(years))
+# plb.ylim(min(mean_world), max(mean_world))
+#ax.xlabel('Year')
+#ax.ylabel('Temperature')
+#locs, labels = plb.xticks()
+#ax.axis('auto')
+#ax.canvas.set_window_title('Global Temperature Rise Year Over Year')
+#plb.show()
+
 fig = plb.figure()
+#ax = fig.add_axes([0, 0, 1, 1])
 plb.plot(years, mean_world, color = 'red', lw = 2, ls = '-', label = 'Mean')
 plb.plot(years, plot_fit_curve_np(years, mean_world), color='g', lw=1, ls='-', label='Curvefit for Mean using Polyfit')
 plb.plot(years, plot_fit_curve_sc(years, mean_world), color='k', lw=1, ls='-.', label='Curvefit for Mean using Interpolate')
 plb.plot(years, med_world, color = 'blue', lw = 1, ls = '-.', label = 'Median')
 plb.legend(loc = 0, frameon = False, fontsize = 'xx-small')
-plb.title("Global temperature fluctuation by year")
-# plb.xlim(min(years), max(years))
-# plb.ylim(min(mean_world), max(mean_world))
 plb.xlabel('Year')
 plb.ylabel('Temperature')
-#locs, labels = plb.xticks()
-#plb.axis('auto')
+plb.axis('auto')
 fig.canvas.set_window_title('Global Temperature Rise Year Over Year')
 plb.show()
